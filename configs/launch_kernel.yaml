@@ -1,0 +1,3 @@
+LOGGER_LIST:
+  PythonLoggingLogger:
+    name: "AIHPC"
