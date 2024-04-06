@@ -12,13 +12,13 @@ import datetime
 import logging
 import functools
 from .base_logger import BaseLogger, LoggerLevel
-from aihpc.core.utils.registry_build import AbstractBuildFactory
+from aihpc.core.utils.registry_build import ObjectRegister
 
 def time_zone(sec, fmt):
     real_time = datetime.datetime.now()
     return real_time.timetuple()
 
-@AbstractBuildFactory.register('logger')
+@ObjectRegister.register('logger')
 class PythonLoggingLogger(BaseLogger):
     logger: logging.Logger
     level_map = {

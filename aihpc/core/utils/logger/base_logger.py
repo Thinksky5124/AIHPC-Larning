@@ -9,7 +9,7 @@ FilePath     : /AIHPC-Larning/aihpc/core/utils/logger/base_logger.py
 import os
 import abc
 from enum import Enum, auto
-from aihpc.core.utils.registry_build import AbstractBuildFactory
+from aihpc.core.utils.registry_build import ObjectRegister
 
 class LoggerLevel(Enum):
     DEBUG = auto()
@@ -100,7 +100,7 @@ def get_logger(name: str) -> BaseLogger:
 def setup_logger(cfg):
     for logger_class, logger_cfg in cfg.items():
         logger_cfg['type'] = logger_class
-        AbstractBuildFactory.create_factory('logger').build(logger_cfg)
+        ObjectRegister.create_factory('logger').build(logger_cfg)
 
 def get_root_logger_instance(default_name='AIHPC'):
     return BaseLogger.LOGGER_DICT[default_name]

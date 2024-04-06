@@ -2,18 +2,33 @@
 Author       : Thinksky5124
 Date         : 2024-03-27 20:45:21
 LastEditors  : Thinksky5124
-LastEditTime : 2024-03-27 21:20:06
+LastEditTime : 2024-04-06 21:39:49
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/dispatcher.py
 '''
+import abc
 from enum import Enum, auto
 from threading import RLock
 from typing import Callable, List, Tuple, Union, Dict, Any
 
 class BackendType(Enum):
-    OpenMP = auto()
-    CUDA = auto()
-    Tritron = auto()
+    OpenMP = "openmp"
+    CUDA = "cuda"
+    Triton = "triton"
+    TorchCPU = "torch_cpu"
+    TorchGPU = "torch_gpu"
+
+def get_backend_type(backend_str):
+    for backend in BackendType:
+        if backend.value == backend_str:
+            return backend
+    raise ValueError(f"Invalid name: {backend_str}")
+
+def get_backend_name(backend_type):
+    for backend in BackendType:
+        if backend == backend_type:
+            return backend.value
+    raise ValueError(f"Invalid type: {backend_type}")
 
 class Dispatcher(object):
     DISPATCH_TABLE: Dict[str, Dict[BackendType, Callable]] = dict()
@@ -38,17 +53,26 @@ class Dispatcher(object):
     @staticmethod
     def register(backend: BackendType, op_name: str = None):
         assert backend in BackendType, "Backend: {backend} not registered in BackendType!"
-
-        def do_register(obj: Callable):
-            if op_name is None:
-                op_name = obj.__name__
-            if op_name not in Dispatcher.DISPATCH_TABLE:
-                Dispatcher.DISPATCH_TABLE[op_name] = dict()
-            Dispatcher.DISPATCH_TABLE[op_name][backend] = obj
+        op_name_c = op_name
+        def do_register(obj: Callable, op_name_r: str = None):
+            if op_name_r is None:
+                if op_name_c is None:
+                    op_name_r = obj.__name__
+                else:
+                    op_name_r = op_name_c
+            if op_name_r not in Dispatcher.DISPATCH_TABLE:
+                Dispatcher.DISPATCH_TABLE[op_name_r] = dict()
+            Dispatcher.DISPATCH_TABLE[op_name_r][backend] = obj
             return obj
         
         return do_register
     
     @staticmethod
     def dispatch(op_name: str, backend: BackendType) -> Callable:
-        return Dispatcher.DISPATCH_TABLE[op_name][backend]
+        return Dispatcher.DISPATCH_TABLE[op_name][backend]()
+
+
+class LaunchKernel(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        pass

@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-26 20:05:40
 LastEditors  : Thinksky5124
-LastEditTime : 2024-03-27 19:55:21
+LastEditTime : 2024-04-06 19:48:49
 Description  : file content
 FilePath     : /AIHPC-Larning/tools/launch.py
 '''
@@ -17,6 +17,7 @@ import numpy as np
 import torch
 from aihpc.core.utils.logger import get_logger
 from aihpc.core.utils.config import get_config
+from aihpc.core import ObjectRegister
 
 
 def parse_args():
@@ -38,6 +39,8 @@ def parse_args():
 def main():
     args = parse_args()
     cfg = get_config(args.config, overrides=args.override)
+    processor = ObjectRegister.create_factory('processor').build(cfg.PROCESSOR)
+    processor.run()
 
 if __name__ == '__main__':
     main()

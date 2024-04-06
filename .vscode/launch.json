@@ -1,0 +1,27 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "launch kernel",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "tools/launch.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-c", "configs/launch_kernel.py"
+            ]
+        },{
+            "name": "pp",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "tritron_tutorials/tritron_python/01-vector-add.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+            ]
+        }
+    ]
+}

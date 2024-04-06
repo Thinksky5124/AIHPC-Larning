@@ -2,9 +2,9 @@
 Author       : Thinksky5124
 Date         : 2024-03-26 20:50:01
 LastEditors  : Thinksky5124
-LastEditTime : 2024-03-27 10:46:02
+LastEditTime : 2024-03-29 11:09:52
 Description  : file content
-FilePath     : /AIHPC-Larning/core/utils/registry_build.py
+FilePath     : /AIHPC-Larning/aihpc/core/utils/registry_build.py
 '''
 
 import abc
@@ -133,7 +133,7 @@ class BaseBuildFactory(metaclass=abc.ABCMeta):
 
     @staticmethod
     def get_registry_table(object_type_name: str):
-        for registry_table_name, registry_table in AbstractBuildFactory.REGISTRY_MAP.items():
+        for registry_table_name, registry_table in ObjectRegister.REGISTRY_MAP.items():
             if object_type_name in registry_table:
                 return registry_table
         raise KeyError(f"No registry table found for object type '{object_type_name}'!")
@@ -180,7 +180,7 @@ class FromConfigBuildFactory(BaseBuildFactory):
     def build(self, cfg: Dict,  *args, key: str = 'type', **kwargs):
         return self.build_from_config(key=key, cfg=cfg, *args, **kwargs)
 
-class AbstractBuildFactory(metaclass=abc.ABCMeta):
+class ObjectRegister(metaclass=abc.ABCMeta):
     BUILD_METHOD_MAP = dict(
         from_config = FromConfigBuildFactory,
         from_args = FromArgsBuildFactory
@@ -194,55 +194,55 @@ class AbstractBuildFactory(metaclass=abc.ABCMeta):
     # singleton design
     def __new__(cls, registry_name = None, build_method = "from_config", *args, **kwargs):
         if registry_name is None:
-            with AbstractBuildFactory.single_lock:
-                if not hasattr(AbstractBuildFactory, "_instance"):
-                    AbstractBuildFactory._instance = object.__new__(cls)
+            with ObjectRegister.single_lock:
+                if not hasattr(ObjectRegister, "_instance"):
+                    ObjectRegister._instance = object.__new__(cls)
             
-            return AbstractBuildFactory._instance
+            return ObjectRegister._instance
         else:
-            assert build_method in AbstractBuildFactory.BUILD_METHOD_MAP.keys(), f"Unsupported build method: {build_method}!"
-            assert registry_name in AbstractBuildFactory.REGISTRY_MAP.keys(), f"Registry name: {registry_name} do not registered in REGISTRY_MAP!"
+            assert build_method in ObjectRegister.BUILD_METHOD_MAP.keys(), f"Unsupported build method: {build_method}!"
+            assert registry_name in ObjectRegister.REGISTRY_MAP.keys(), f"Registry name: {registry_name} do not registered in REGISTRY_MAP!"
             if registry_name is None:
-                return AbstractBuildFactory.BUILD_METHOD_MAP[build_method]()
-            return AbstractBuildFactory.BUILD_METHOD_MAP[build_method](AbstractBuildFactory.REGISTRY_MAP[registry_name])
+                return ObjectRegister.BUILD_METHOD_MAP[build_method]()
+            return ObjectRegister.BUILD_METHOD_MAP[build_method](ObjectRegister.REGISTRY_MAP[registry_name])
     
     @staticmethod
     @property
     def registry_keys() -> List[str]:
-        return list(AbstractBuildFactory.REGISTRY_MAP.keys())
+        return list(ObjectRegister.REGISTRY_MAP.keys())
     
     @staticmethod
     def get_registry_table(registry_name: str) -> List[str]:
-        return list(AbstractBuildFactory.REGISTRY_MAP[registry_name].keys())
+        return list(ObjectRegister.REGISTRY_MAP[registry_name].keys())
     
     @staticmethod
     def create_factory(registry_name: str = None, build_method: str = "from_config"):
-        assert build_method in AbstractBuildFactory.BUILD_METHOD_MAP.keys(), f"Unsupported build method: {build_method}!"
-        assert registry_name in AbstractBuildFactory.REGISTRY_MAP.keys(), f"Registry name: {registry_name} do not registered in REGISTRY_MAP!"
+        assert build_method in ObjectRegister.BUILD_METHOD_MAP.keys(), f"Unsupported build method: {build_method}!"
+        assert registry_name in ObjectRegister.REGISTRY_MAP.keys(), f"Registry name: {registry_name} do not registered in REGISTRY_MAP!"
         if registry_name is None:
-                return AbstractBuildFactory.BUILD_METHOD_MAP[build_method]()
-        return AbstractBuildFactory.BUILD_METHOD_MAP[build_method](AbstractBuildFactory.REGISTRY_MAP[registry_name])
+                return ObjectRegister.BUILD_METHOD_MAP[build_method]()
+        return ObjectRegister.BUILD_METHOD_MAP[build_method](ObjectRegister.REGISTRY_MAP[registry_name])
     
     @staticmethod
     def register(registry_name: str):
         """
         Register a class from `registry_name`, can be used as decorate
         .. code-block:: python
-            @AbstractBuildFactory.register('backbone')
+            @ObjectRegister.register('backbone')
             class ResNet:
                 pass
                 
-            build_factory_1 = AbstractBuildFactory('backbone')
-            abstract_build_factory_2 = AbstractBuildFactory()
+            build_factory_1 = ObjectRegister('backbone')
+            abstract_build_factory_2 = ObjectRegister()
             build_factory_2 = abstract_build_factory_2.create_factory('backbone')
             a = build_factory_1.build(...)
             a = build_factory_2.build(...)
         """
         assert isinstance(registry_name, str), "registry_name must be a string!"
-        if registry_name not in AbstractBuildFactory.REGISTRY_MAP.keys():
-            AbstractBuildFactory.REGISTRY_MAP[registry_name] = Registry(registry_name)
+        if registry_name not in ObjectRegister.REGISTRY_MAP.keys():
+            ObjectRegister.REGISTRY_MAP[registry_name] = Registry(registry_name)
         
-        Registry_class: Registry = AbstractBuildFactory.REGISTRY_MAP[registry_name]
+        Registry_class: Registry = ObjectRegister.REGISTRY_MAP[registry_name]
         def actually_register(obj: Callable = None, name: str = None):
             return Registry_class.register(obj, name)
         
@@ -251,9 +251,9 @@ class AbstractBuildFactory(metaclass=abc.ABCMeta):
     @staticmethod
     def register_obj(obj: Callable, registry_name: str, obj_name: str = None):
         assert isinstance(registry_name, str), "registry_name must be a string!"
-        if registry_name not in AbstractBuildFactory.REGISTRY_MAP.keys():
-            AbstractBuildFactory.REGISTRY_MAP[registry_name] = Registry(registry_name)
+        if registry_name not in ObjectRegister.REGISTRY_MAP.keys():
+            ObjectRegister.REGISTRY_MAP[registry_name] = Registry(registry_name)
         
-        Registry_class: Registry = AbstractBuildFactory.REGISTRY_MAP[registry_name]
+        Registry_class: Registry = ObjectRegister.REGISTRY_MAP[registry_name]
         return Registry_class.register(obj, obj_name)
     

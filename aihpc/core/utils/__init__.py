@@ -6,6 +6,6 @@ LastEditTime : 2024-03-27 19:55:57
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/utils/__init__.py
 '''
-from .registry_build import AbstractBuildFactory
+from .registry_build import ObjectRegister
 from .logger import *
 from .config import get_config

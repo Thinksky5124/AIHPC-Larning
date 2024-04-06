@@ -1,3 +1,11 @@
+'''
+Author       : Thinksky5124
+Date         : 2024-03-26 15:22:06
+LastEditors  : Thinksky5124
+LastEditTime : 2024-03-28 19:37:35
+Description  : file content
+FilePath     : /AIHPC-Larning/tritron_tutorials/tritron_python/01-vector-add.py
+'''
 """
 Vector Addition
 ===============
