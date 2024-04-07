@@ -6,4 +6,4 @@ LastEditTime : 2024-03-27 20:17:28
 Description  : file content
 FilePath     : /AIHPC-Larning/tests/test_cases/__init__.py
 '''
-from .test_tritron import *
+from .kernel import *

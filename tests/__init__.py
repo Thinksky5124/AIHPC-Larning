@@ -7,5 +7,5 @@ Description  : file content
 FilePath     : /AIHPC-Larning/tests/__init__.py
 '''
 from .common import *
-from .conf import *
+from .utils import *
 from .test_cases import *

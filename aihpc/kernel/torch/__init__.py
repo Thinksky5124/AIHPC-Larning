@@ -6,8 +6,8 @@ LastEditTime : 2024-04-06 20:43:20
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/kernel/torch/__init__.py
 '''
-from .vector_add import add, LaunchTorchCPUAddKernel, LaunchTorchGPUAddKernel
+from .vector_add import add, LaunchTorchCPUAddKernel, LaunchTorchCUDAAddKernel
 
 __all__ = [
-    'add', 'LaunchTorchCPUAddKernel', 'LaunchTorchGPUAddKernel'
+    'add', 'LaunchTorchCPUAddKernel', 'LaunchTorchCUDAAddKernel'
 ]

@@ -2,9 +2,9 @@
 Author       : Thinksky5124
 Date         : 2024-03-27 20:14:51
 LastEditors  : Thinksky5124
-LastEditTime : 2024-03-27 20:14:58
+LastEditTime : 2024-04-07 13:53:52
 Description  : file content
-FilePath     : /AIHPC-Larning/tests/conf/logger_setting.py
+FilePath     : /AIHPC-Larning/tests/utils/logger_setting.py
 '''
 import os
 

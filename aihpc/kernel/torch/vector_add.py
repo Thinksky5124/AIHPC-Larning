@@ -18,7 +18,7 @@ class LaunchTorchCPUAddKernel(LaunchKernel):
     def __call__(self, *args: torch.Any, **kwargs: torch.Any) -> torch.Any:
         return add(*args, **kwargs)
 
-@Dispatcher.register(BackendType.TorchGPU, "add")
-class LaunchTorchGPUAddKernel(LaunchKernel):
+@Dispatcher.register(BackendType.TorchCUDA, "add")
+class LaunchTorchCUDAAddKernel(LaunchKernel):
     def __call__(self, *args: torch.Any, **kwargs: torch.Any) -> torch.Any:
         return add(*args, **kwargs)

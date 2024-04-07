@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-27 20:45:21
 LastEditors  : Thinksky5124
-LastEditTime : 2024-04-06 21:39:49
+LastEditTime : 2024-04-07 23:57:38
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/dispatcher.py
 '''
@@ -16,7 +16,7 @@ class BackendType(Enum):
     CUDA = "cuda"
     Triton = "triton"
     TorchCPU = "torch_cpu"
-    TorchGPU = "torch_gpu"
+    TorchCUDA = "torch_cuda"
 
 def get_backend_type(backend_str):
     for backend in BackendType:

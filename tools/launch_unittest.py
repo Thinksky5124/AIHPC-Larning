@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-27 20:11:45
 LastEditors  : Thinksky5124
-LastEditTime : 2024-03-27 20:25:16
+LastEditTime : 2024-04-07 14:41:45
 Description  : file content
 FilePath     : /AIHPC-Larning/tools/launch_unittest.py
 '''
@@ -11,7 +11,8 @@ import sys
 path = os.path.join(os.getcwd())
 sys.path.append(path)
 import argparse
-from tests.conf import logger_setting
+import subprocess
+from tests.utils import logger_setting
 from logging import config, getLogger
 
 def mkdir(dir):
@@ -40,6 +41,16 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+def run_tests():
+    build_dir = "build"
+    test_command = ["cmake", "-DBUILD_TESTS=ON"]
+
+    try:
+        subprocess.run(test_command, cwd=build_dir, check=True)
+        print("Unittest Run Successful!")
+    except subprocess.CalledProcessError as e:
+        print("Unittest Run Error:", e)
+        
 if __name__ == '__main__':
     args = parse_args()
     mkdir(args.path_report)
@@ -51,4 +62,7 @@ if __name__ == '__main__':
     if args.s:
         add_args = add_args + '-s '
     os.system(f'pytest tests {add_args}')
+
+    run_tests()
+    
     logger.info("All Test Case Finish!")

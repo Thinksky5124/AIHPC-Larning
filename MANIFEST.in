@@ -1,0 +1,16 @@
+include MANIFEST.in
+include CMakeLists.txt
+include .gitmodules
+include version.txt
+recursive-include aihpc *.*
+exclude tests/*
+exclude .gitignore
+exclude third_party/*
+exclude docs/*
+exclude tools/*
+exclude scripts/*
+exclude configs/*
+exclude triton_tutorials/*
+exclude .vscode/*
+prune */__pycache__
+global-exclude *.o *.so *.dylib *.a .git *.pyc *.swp
