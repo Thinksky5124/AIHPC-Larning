@@ -24,3 +24,11 @@ dependencies = [
     "pandas",
     "torch"
 ]
+
+[project.optional-dependencies]
+test = [
+    "pytest >= 7.4"
+]
+
+[tool.setuptools]
+packages = ["aihpc"]

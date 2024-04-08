@@ -6,7 +6,4 @@ LastEditTime : 2024-04-06 20:45:09
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/kernel/__init__.py
 '''
-from .triton import *
-from .cuda import *
-from .openmp import *
-from .torch import *
+from .py_api import *

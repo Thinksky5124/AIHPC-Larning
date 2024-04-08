@@ -58,7 +58,3 @@ def add(x: torch.Tensor, y: torch.Tensor):
     # running asynchronously at this point.
     return output
 
-@Dispatcher.register(BackendType.Triton, "add")
-class LaunchTritronAddKernel(LaunchKernel):
-    def __call__(self, *args: torch.Any, **kwargs: torch.Any) -> torch.Any:
-        return add(*args, **kwargs)

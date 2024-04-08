@@ -8,7 +8,7 @@ exclude .gitignore
 exclude third_party/*
 exclude docs/*
 exclude tools/*
-exclude scripts/*
+exclude script/*
 exclude configs/*
 exclude triton_tutorials/*
 exclude .vscode/*

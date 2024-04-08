@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(aihpc_learning LANGUAGES CXX)
+project(aihpc_learning_C LANGUAGES CXX)
 
 add_subdirectory(third_party)
 add_subdirectory(aihpc)
