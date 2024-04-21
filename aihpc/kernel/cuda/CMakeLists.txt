@@ -1,18 +1,12 @@
-project(cuda_kernel LANGUAGES CXX CUDA)
+add_subdirectory(vector_add)
 
-enable_language(CUDA)
+file(GLOB_RECURSE CPP_SOURCES "include/*.cpp" "include/*.cc")
 
-include_directories(${TORCH_INCLUDE_DIRS} ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+set(KERNEL_SRCS ${KERNEL_SRCS} ${CPP_SOURCES})
+set(KERNEL_INCLUDE_DIR ${KERNEL_INCLUDE_DIR} ${CMAKE_CURRENT_LIST_DIR}/include)
 
-file(GLOB_RECURSE CPP_SOURCES "*.cpp" "*.h")
-file(GLOB_RECURSE CUDA_SOURCES "*.cu" "*.cuh")
+set(KERNEL_SRCS ${KERNEL_SRCS} PARENT_SCOPE)
+set(KERNEL_INCLUDE_DIR ${KERNEL_INCLUDE_DIR} PARENT_SCOPE)
 
-cuda_add_library(cuda_kernel
-                 SHARED
-                 ${CUDA_SOURCES}
-                 ${CPP_SOURCES})
-
-target_link_libraries(cuda_kernel ${TORCH_LIBRARIES} ${CUDA_LIBRARIES})
-target_include_directories(cuda_kernel PRIVATE ${TORCH_INCLUDE_DIRS} ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-
-set_target_properties(cuda_kernel PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set(KERNEL_GPU_SRCS ${KERNEL_GPU_SRCS} PARENT_SCOPE)
+set(KERNEL_GPU_INCLUDE_DIR ${KERNEL_GPU_INCLUDE_DIR} PARENT_SCOPE)

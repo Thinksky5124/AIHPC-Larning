@@ -2,15 +2,15 @@
  * @Author       : Thinksky5124
  * @Date         : 2024-04-07 15:59:01
  * @LastEditors  : Thinksky5124
- * @LastEditTime : 2024-04-08 20:09:24
+ * @LastEditTime : 2024-04-20 15:58:42
  * @Description  : file content
  * @FilePath     : /AIHPC-Larning/aihpc/kernel/cuda/vector_add/vector_add_cuda.cu
  */
 #include "vector_add_cuda.cuh"
+#include <cuda_runtime_api.h>
+#include <cuda.h>
 
-namespace cuda_kernel
-{
-__global__ void vector_add_kernel(const float *A, const float *B,
+__global__ void kernel::cuda::vector_add_kernel(const float *A, const float *B,
                                     float *C, int numElements){
     int i = blockDim.x * blockIdx.x + threadIdx.x;
 
@@ -18,9 +18,8 @@ __global__ void vector_add_kernel(const float *A, const float *B,
         C[i] = A[i] + B[i] + 0.0f;
     }
 }
-} // namespace cuda_kernel
 
-void cuda_kernel::launch_vector_add_kernel(){
+void kernel::cuda::launch_vector_add_kernel(){
     // Error code to check return values for CUDA calls
     cudaError_t err = cudaSuccess;
 

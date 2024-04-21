@@ -7,6 +7,7 @@ Description  : file content
 FilePath     : /AIHPC-Larning/tests/test_cases/kernel/triton/test_triton.py
 '''
 import pytest
+import aihpc
 
 class TestTriton:
     def test_add(self):

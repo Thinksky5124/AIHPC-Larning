@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python 调试程序: 当前文件",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
             "type": "cmake",
             "request": "launch",
             "name": "CMake: 配置项目",
@@ -19,17 +26,18 @@
             "program": "tools/launch.py",
             "console": "integratedTerminal",
             "args": [
-                "-c", "configs/launch_kernel.py"
+                "-c",
+                "configs/launch_kernel.py"
             ]
-        },{
+        },
+        {
             "name": "pp",
             "type": "debugpy",
             "request": "launch",
             "program": "tritron_tutorials/tritron_python/01-vector-add.py",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "args": [
-            ]
+            "args": []
         }
     ]
 }

@@ -1,12 +1,23 @@
-cmake_minimum_required(VERSION 3.22)
+if(BUILD_CUDA_KERNEL)
+    add_subdirectory(cuda)
+endif()
 
-project(kernel LANGUAGES CXX)
+if(BUILD_OPENMP_KERNEL)
+    add_subdirectory(openmp)
+endif()
 
-add_subdirectory(cuda)
-add_subdirectory(openmp)
 
-file(GLOB_RECURSE TOP_CPP_SOURCES "common/*.cpp" "common/*.h")
+file(GLOB_RECURSE CPP_SOURCES "include/*.cpp" "include/*.cc")
+file(GLOB_RECURSE CPP_HEADERS "include/*.h" "include/*.hpp")
 
-add_library(kernel SHARED ${TOP_CPP_SOURCES})
+set(KERNEL_SRCS ${KERNEL_SRCS} ${CPP_SOURCES})
+set(KERNEL_INCLUDE_DIR ${KERNEL_INCLUDE_DIR} ${CMAKE_CURRENT_LIST_DIR}/include)
 
-target_link_libraries(kernel cuda_kernel)
+set(KERNEL_SRCS ${KERNEL_SRCS} PARENT_SCOPE)
+set(KERNEL_INCLUDE_DIR ${KERNEL_INCLUDE_DIR} PARENT_SCOPE)
+
+set(KERNEL_GPU_SRCS ${KERNEL_GPU_SRCS} PARENT_SCOPE)
+set(KERNEL_GPU_INCLUDE_DIR ${KERNEL_GPU_INCLUDE_DIR} PARENT_SCOPE)
+
+set(KERNEL_OpenMP_SRCS ${KERNEL_OpenMP_SRCS} PARENT_SCOPE)
+set(KERNEL_OpenMP_INCLUDE_DIR ${KERNEL_OpenMP_INCLUDE_DIR} PARENT_SCOPE)

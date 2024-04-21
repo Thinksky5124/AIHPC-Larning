@@ -1,10 +1,10 @@
 /*
  * @Author       : Thinksky5124
- * @Date         : 2024-04-07 13:57:12
+ * @Date         : 2024-04-20 16:07:35
  * @LastEditors  : Thinksky5124
- * @LastEditTime : 2024-04-07 15:54:42
+ * @LastEditTime : 2024-04-20 16:08:20
  * @Description  : file content
- * @FilePath     : /AIHPC-Larning/tests/test_cases/kernel/cuda/test_add.cpp
+ * @FilePath     : /AIHPC-Larning/tests/test_cases/kernel/openmp/test_openmp.cpp
  */
 #include "gtest/gtest.h"
 

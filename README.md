@@ -12,3 +12,4 @@ High performance computing knowledge learning warehouse in artificial intelligen
 - [ ] Launch on OpenMP
 - [x] Launch kernel for different platforms
 - [x] Compare different kernels speed
+- [ ] Add CXX Logger
