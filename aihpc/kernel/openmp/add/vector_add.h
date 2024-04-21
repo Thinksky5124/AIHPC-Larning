@@ -7,7 +7,7 @@
  * @FilePath     : /AIHPC-Larning/aihpc/kernel/openmp/vector_add/vector_add.h
  */
 #pragma once
-#include <torch/all.h>
+#include <torch/extension.h>
 #include <pybind11/pybind11.h>
 #include "vector_add_openmp.h"
 
@@ -15,6 +15,6 @@ namespace kernel
 {
     namespace openmp
     {
-        void vector_add();
+        torch::Tensor add(torch::Tensor a, torch::Tensor b);
     } // namespace cuda
 } // namespace kernel

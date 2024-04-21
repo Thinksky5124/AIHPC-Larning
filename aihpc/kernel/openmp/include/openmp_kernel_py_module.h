@@ -7,14 +7,14 @@
  * @FilePath     : /AIHPC-Larning/aihpc/kernel/openmp/include/openmp_kernel_py_module.h
  */
 #pragma once
-#include <torch/all.h>
+#include <torch/extension.h>
 #include <pybind11/pybind11.h>
 
 namespace kernel
 {
     namespace openmp
     {
-        void add_vector_add_to_module(pybind11::module &m);
+        void add_add_to_module(pybind11::module &m);
         void define_openmp_kernel_module(pybind11::module &m);
     } // namespace opemmp
 } // namespace kernel

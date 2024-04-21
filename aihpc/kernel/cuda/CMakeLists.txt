@@ -1,4 +1,4 @@
-add_subdirectory(vector_add)
+add_subdirectory(add)
 
 file(GLOB_RECURSE CPP_SOURCES "include/*.cpp" "include/*.cc")
 

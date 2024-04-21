@@ -7,7 +7,7 @@
  * @FilePath     : /AIHPC-Larning/aihpc/kernel/common/kernel_pybind11_module.h
  */
 #pragma once
-#include <torch/all.h>
+#include <torch/extension.h>
 #include <pybind11/pybind11.h>
 
 namespace kernel

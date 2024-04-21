@@ -7,4 +7,4 @@
  # @Description  : file content
  # @FilePath     : /AIHPC-Larning/script/run.sh
 ### 
-python tools/launch.py -c configs/launch_kernel.yaml
+python tools/launch.py -c configs/launch_kernel.py

@@ -2,8 +2,9 @@
 CUDA Kernel module
 """
 from __future__ import annotations
-__all__ = ['vector_add']
-def vector_add() -> None:
+import torch
+__all__ = ['add']
+def add(arg0: torch.Tensor, arg1: torch.Tensor, arg2: bool) -> torch.Tensor:
     """
-    Vector Add
+    Add Two Tensor
     """

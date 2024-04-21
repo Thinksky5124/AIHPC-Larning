@@ -2,9 +2,9 @@
  * @Author       : Thinksky5124
  * @Date         : 2024-04-07 15:59:01
  * @LastEditors  : Thinksky5124
- * @LastEditTime : 2024-04-20 15:58:42
+ * @LastEditTime : 2024-04-21 20:54:14
  * @Description  : file content
- * @FilePath     : /AIHPC-Larning/aihpc/kernel/cuda/vector_add/vector_add_cuda.cu
+ * @FilePath     : /AIHPC-Larning/aihpc/kernel/cuda/add/vector_add_cuda.cu
  */
 #include "vector_add_cuda.cuh"
 #include <cuda_runtime_api.h>
@@ -19,35 +19,21 @@ __global__ void kernel::cuda::vector_add_kernel(const float *A, const float *B,
     }
 }
 
-void kernel::cuda::launch_vector_add_kernel(){
+void kernel::cuda::launch_vector_add_kernel(const torch::Tensor &a, const torch::Tensor &b, torch::Tensor &c, bool in_place){
     // Error code to check return values for CUDA calls
     cudaError_t err = cudaSuccess;
-
+    
+    if( a.numel() != b.numel() )
+    {
+        throw "Tensor a and b must have the same number of elements";
+    }
     // Print the vector length to be used, and compute its size
-    int numElements = 50000;
+    int numElements = a.numel();
     size_t size = numElements * sizeof(float);
-    printf("[Vector addition of %d elements]\n", numElements);
 
-    // Allocate the host input vector A
-    float *h_A = (float *)malloc(size);
-
-    // Allocate the host input vector B
-    float *h_B = (float *)malloc(size);
-
-    // Allocate the host output vector C
-    float *h_C = (float *)malloc(size);
-
-    // Verify that allocations succeeded
-    if (h_A == NULL || h_B == NULL || h_C == NULL) {
-        fprintf(stderr, "Failed to allocate host vectors!\n");
-        exit(EXIT_FAILURE);
-    }
-
-    // Initialize the host input vectors
-    for (int i = 0; i < numElements; ++i) {
-        h_A[i] = rand() / (float)RAND_MAX;
-        h_B[i] = rand() / (float)RAND_MAX;
-    }
+    float* h_A = a.data_ptr<float>();
+    float* h_B = b.data_ptr<float>();
+    float* h_C = c.data_ptr<float>();
 
     // Allocate the device input vector A
     float *d_A = NULL;
@@ -104,8 +90,6 @@ void kernel::cuda::launch_vector_add_kernel(){
     // Launch the Vector Add CUDA Kernel
     int threadsPerBlock = 256;
     int blocksPerGrid = (numElements + threadsPerBlock - 1) / threadsPerBlock;
-    printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid,
-            threadsPerBlock);
     vector_add_kernel<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, numElements);
     err = cudaGetLastError();
 
@@ -117,7 +101,6 @@ void kernel::cuda::launch_vector_add_kernel(){
 
     // Copy the device result vector in device memory to the host result vector
     // in host memory.
-    printf("Copy output data from the CUDA device to the host memory\n");
     err = cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
 
     if (err != cudaSuccess) {
@@ -126,16 +109,6 @@ void kernel::cuda::launch_vector_add_kernel(){
                 cudaGetErrorString(err));
         exit(EXIT_FAILURE);
     }
-
-    // Verify that the result vector is correct
-    for (int i = 0; i < numElements; ++i) {
-        if (fabs(h_A[i] + h_B[i] - h_C[i]) > 1e-5) {
-        fprintf(stderr, "Result verification failed at element %d!\n", i);
-        exit(EXIT_FAILURE);
-        }
-    }
-
-    printf("Test PASSED\n");
 
     // Free device global memory
     err = cudaFree(d_A);
@@ -161,11 +134,4 @@ void kernel::cuda::launch_vector_add_kernel(){
                 cudaGetErrorString(err));
         exit(EXIT_FAILURE);
     }
-
-    // Free host memory
-    free(h_A);
-    free(h_B);
-    free(h_C);
-
-    printf("Done\n");
 }

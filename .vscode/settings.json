@@ -6,6 +6,8 @@
     "python.testing.pytestEnabled": true,
     "files.associations": {
         "random": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }

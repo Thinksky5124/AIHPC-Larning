@@ -7,4 +7,4 @@
  * @FilePath     : /AIHPC-Larning/aihpc/kernel/openmp/include/openmp_kernel.h
  */
 #pragma once
-#include "../vector_add/vector_add.h"
+#include "../add/vector_add.h"

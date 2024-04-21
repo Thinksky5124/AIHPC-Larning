@@ -7,7 +7,7 @@
  * @FilePath     : /AIHPC-Larning/aihpc/core/csrc/core_pybind11_module.h
  */
 #pragma once
-#include <torch/all.h>
+#include <torch/extension.h>
 #include <pybind11/pybind11.h>
 
 namespace core
