@@ -6,10 +6,15 @@ LastEditTime : 2024-04-08 15:05:21
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/kernel/py_api/__init__.py
 '''
-from .add import (LaunchCUDAAddKernel, LaunchTorchCPUAddKernel,
-                  LaunchTorchCUDAAddKernel, LaunchTritonAddKernel,
-                  LaunchOpenMPAddKernel)
+from .cuda import (LaunchCUDAAddKernel)
+from .openmp import (LaunchOpenMPAddKernel)
+from .triton import (LaunchTritonAddKernel)
+from .torch import (LaunchTorchCPUAddKernel, LaunchTorchCUDAAddKernel)
 
 __all__ = [
-    'LaunchCUDAAddKernel', 'LaunchTorchCPUAddKernel', 'LaunchTorchCUDAAddKernel', 'LaunchTritonAddKernel', 'LaunchOpenMPAddKernel'
+    "LaunchCUDAAddKernel",
+    "LaunchOpenMPAddKernel",
+    "LaunchTritonAddKernel",
+    "LaunchTorchCPUAddKernel",
+    "LaunchTorchCUDAAddKernel",
 ]

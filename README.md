@@ -1,6 +1,11 @@
 # AIHPC-Larning
 High performance computing knowledge learning warehouse in artificial intelligence
 
+# INSTALL
+```bash
+pip install .
+```
+
 # Dcuments TOC
 - [Benchmark](docs/Benchmark.md)
 - [Tutorials](docs/Tutorials.md)

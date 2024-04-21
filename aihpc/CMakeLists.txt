@@ -140,6 +140,7 @@ else()
     message("-- Found pybind11-stubgen version: ${stubgen_version}")
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${Python_EXECUTABLE} -m pybind11_stubgen -o ${CMAKE_CURRENT_LIST_DIR} ${PROJECT_NAME}
+        COMMAND echo "Success generating stub files"
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS ${PROJECT_NAME})
     endif()

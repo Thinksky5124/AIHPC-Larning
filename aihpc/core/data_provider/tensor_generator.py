@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-04-06 22:39:57
 LastEditors  : Thinksky5124
-LastEditTime : 2024-04-06 23:12:24
+LastEditTime : 2024-04-21 22:59:56
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/data_provider/tensor_generator.py
 '''
@@ -29,13 +29,15 @@ class RandomTensorGenerator(BaseTensorGenerator):
     def __init__(self,
                  seed_generator: torch.Generator,
                  dtype: torch.dtype,
-                 device: Any) -> None:
+                 device: Any = None) -> None:
         super().__init__(seed_generator)
         self.dtype = dtype
         self.device = device
     
-    def generate(self, size: int, *args, **kwargs) -> torch.Tensor:
+    def generate(self, size: int, *args, map_device: Any = None, **kwargs) -> torch.Tensor:
+        if map_device is None:
+            map_device = self.device
         return torch.rand(size, generator=self.seed_generator,
-                          dtype=self.dtype, device=self.device)
+                          dtype=self.dtype, device=map_device)
     
     

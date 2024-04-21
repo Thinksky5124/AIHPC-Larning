@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-29 20:18:21
 LastEditors  : Thinksky5124
-LastEditTime : 2024-04-06 23:22:47
+LastEditTime : 2024-04-21 23:16:15
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/benchmark/op_kernel_benchmark.py
 '''
@@ -12,7 +12,7 @@ import functools
 from typing import Any, Dict, List, Callable
 
 from .base_benchmark import BaseBenchmark
-from ..dispatcher import get_backend_type, BackendType, Dispatcher
+from ..dispatcher import get_backend_type, BackendType, Dispatcher, get_torch_map_device
 from ..utils import ObjectRegister
 
 @ObjectRegister.register('benchmark')
@@ -40,6 +40,7 @@ class OpKernelBenchmark(BaseBenchmark):
     def _run(self,
             kernel_fn: callable,
             fn_kwargs: Dict[str, Any],
+            tensor_gen_kwargs: Dict[str, Any],
             grad_to_none: torch.Tensor = None):
         """
         Benchmark the runtime of the provided function. By default, return the median runtime of :code:`fn` along with
@@ -59,7 +60,10 @@ class OpKernelBenchmark(BaseBenchmark):
         :type fast_flush: bool
         """
         ## construct the function
-        args, kwargs = self.get_function_input(x_kwargs=fn_kwargs)
+        x_kwargs = {}
+        x_kwargs.update(fn_kwargs)
+        x_kwargs.update(tensor_gen_kwargs)
+        args, kwargs = self.get_function_input(x_kwargs=x_kwargs)
         fn = functools.partial(self.function, fn=kernel_fn, args=args, kwargs=kwargs)
 
         fn()
@@ -132,7 +136,7 @@ class OpKernelBenchmark(BaseBenchmark):
             x_args = {x_name: x for x_name in self.x_names}
             for backend_type in self.backend_types:
                 ret = self._run(kernel_fn = Dispatcher.dispatch(self.op_name, backend_type),
-                                fn_kwargs = x_args)
+                                fn_kwargs = x_args, tensor_gen_kwargs={'map_device': get_torch_map_device(backend_type)})
                 if 'after_backend' in self.callback_fn_dict:
                     for callback in self.callback_fn_dict['after_backend']:
                         callback(self.x_names[0], x_args[self.x_names[0]], 'speed', ret)

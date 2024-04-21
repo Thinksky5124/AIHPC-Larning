@@ -2,9 +2,9 @@
  * @Author       : Thinksky5124
  * @Date         : 2024-04-20 15:21:12
  * @LastEditors  : Thinksky5124
- * @LastEditTime : 2024-04-20 16:00:31
+ * @LastEditTime : 2024-04-21 22:46:53
  * @Description  : file content
- * @FilePath     : /AIHPC-Larning/aihpc/kernel/openmp/vector_add/vector_add.h
+ * @FilePath     : /AIHPC-Larning/aihpc/kernel/openmp/add/vector_add.h
  */
 #pragma once
 #include <torch/extension.h>
@@ -15,6 +15,6 @@ namespace kernel
 {
     namespace openmp
     {
-        torch::Tensor add(torch::Tensor a, torch::Tensor b);
+        torch::Tensor add(const torch::Tensor &a, const torch::Tensor &b, bool in_place=false);
     } // namespace cuda
 } // namespace kernel

@@ -8,6 +8,8 @@
         "random": "cpp",
         "algorithm": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "vector": "cpp",
+        "iostream": "cpp"
     }
 }

@@ -2,7 +2,7 @@
  * @Author       : Thinksky5124
  * @Date         : 2024-04-20 15:21:33
  * @LastEditors  : Thinksky5124
- * @LastEditTime : 2024-04-21 20:28:56
+ * @LastEditTime : 2024-04-21 23:19:46
  * @Description  : file content
  * @FilePath     : /AIHPC-Larning/aihpc/kernel/openmp/include/openmp_kernel_py_module.cpp
  */
@@ -18,7 +18,7 @@ namespace kernel
     {   
         void add_add_to_module(pybind11::module &m)
         {
-            m.def("add", &add, "Add Two Tensor");
+            m.def("add", &add, "Add Two Tensor", py::arg("a"), py::arg("b"), py::arg("in_place") = false);
         }
 
         void define_openmp_kernel_module(pybind11::module &m){

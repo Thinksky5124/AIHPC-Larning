@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-28 20:31:00
 LastEditors  : Thinksky5124
-LastEditTime : 2024-04-06 23:09:12
+LastEditTime : 2024-04-21 22:39:46
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/data_provider/args_data_provider.py
 '''
@@ -25,7 +25,7 @@ class TupleDataProvider(BaseDataProvider):
         for cfg in args_list:
             cfg_copy = copy.deepcopy(cfg)
             cfg_copy['seed_generator'] = self.seed_generator
-            self.args_list = [ObjectRegister.create_factory('tensor_generator').build(cfg_copy)]
+            self.args_list.append(ObjectRegister.create_factory('tensor_generator').build(cfg_copy))
 
     def generate_data(self, *args, **kwargs) -> Tuple[Any]:
         data = [gen.generate(*args, **kwargs) for gen in self.args_list]
@@ -62,7 +62,7 @@ class MixedDataProvider(BaseDataProvider):
         for cfg in args_list:
             cfg_copy = copy.deepcopy(cfg)
             cfg_copy['seed_generator'] = self.seed_generator
-            self.args_list = [ObjectRegister.create_factory('tensor_generator').build(cfg_copy)]
+            self.args_list.append(ObjectRegister.create_factory('tensor_generator').build(cfg_copy))
         self.args_dict = {}
         for key, cfg in args_dict.items():
             cfg_copy = copy.deepcopy(cfg)
