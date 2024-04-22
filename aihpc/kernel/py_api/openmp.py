@@ -20,9 +20,10 @@ if CXX_EXTENSION_ENABLED:
     except:
         pass
 
-if OPENMP_KERNEL_ENABLED:
-    @Dispatcher.register(BackendType.OpenMP, "add")
-    class LaunchOpenMPAddKernel(LaunchKernel):
+
+@Dispatcher.register(BackendType.OpenMP, "add")
+class LaunchOpenMPAddKernel(LaunchKernel):
+    if OPENMP_KERNEL_ENABLED:
         def __call__(self, *args: torch.Any, **kwargs: torch.Any) -> torch.Any:
             return kernel_openmp.add(*args, **kwargs)
     

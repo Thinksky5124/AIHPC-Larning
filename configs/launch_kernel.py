@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-26 20:41:11
 LastEditors  : Thinksky5124
-LastEditTime : 2024-04-21 23:38:51
+LastEditTime : 2024-04-22 21:24:04
 Description  : file content
 FilePath     : /AIHPC-Larning/configs/launch_kernel.py
 '''
@@ -11,7 +11,10 @@ import torch
 LOGGER_LIST = dict(
     PythonLoggingLogger = dict(
         name = "AIHPC"
-    )
+    ),
+    # CCLoggerWrapper = dict(
+    #     name = "AIHPC"
+    # )
 )
 
 PROCESSOR = dict(

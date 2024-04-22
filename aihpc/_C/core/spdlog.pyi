@@ -1,5 +1,5 @@
 """
-CUDA Kernel module
+A Python wrapper spdlog module
 """
 from __future__ import annotations
 import typing

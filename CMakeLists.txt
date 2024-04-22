@@ -99,6 +99,12 @@ find_library(TORCH_PYTHON_LIBRARY torch_python PATH "${TORCH_INSTALL_PREFIX}/lib
 message("//=====================BUILD MESSAGE======================")
 
 add_subdirectory(third_party)
+
+if(NOT TARGET spdlog)
+    # Stand-alone build
+    find_package(spdlog REQUIRED)
+endif()
+
 add_subdirectory(aihpc)
 
 # CTest related

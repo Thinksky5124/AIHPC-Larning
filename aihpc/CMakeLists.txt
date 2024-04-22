@@ -79,6 +79,7 @@ set_property(TARGET ${PROJECT_NAME}_Lib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_link_libraries(${PROJECT_NAME}_Lib
                       PUBLIC
+                      spdlog::spdlog_header_only
                       ${Python_LIBRARIES}
                       ${TORCH_PYTHON_LIBRARY}
                       ${TORCH_LIBRARIES}
@@ -90,6 +91,7 @@ pybind11_add_module(${PROJECT_NAME} ${Pybind11_SRCS})
 target_link_libraries(${PROJECT_NAME}
                       PUBLIC
                       ${PROJECT_NAME}_Lib
+                      spdlog::spdlog_header_only
                       ${TORCH_PYTHON_LIBRARY}
                       ${Python_LIBRARIES}
                       ${TORCH_LIBRARIES}
@@ -139,7 +141,9 @@ else()
     else()
     message("-- Found pybind11-stubgen version: ${stubgen_version}")
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${Python_EXECUTABLE} -m pybind11_stubgen -o ${CMAKE_CURRENT_LIST_DIR} ${PROJECT_NAME}
+        COMMAND ${Python_EXECUTABLE} -m pybind11_stubgen -o ${CMAKE_CURRENT_LIST_DIR}
+          --enum-class-locations OutPosition:_C.core.spdlog --enum-class-locations OutMode:_C.core.spdlog --enum-class-locations OutLevel:_C.core.spdlog
+          ${PROJECT_NAME}
         COMMAND echo "Success generating stub files"
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS ${PROJECT_NAME})

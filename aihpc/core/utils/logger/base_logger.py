@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-27 19:19:15
 LastEditors  : Thinksky5124
-LastEditTime : 2024-03-27 20:04:54
+LastEditTime : 2024-04-22 16:51:16
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/utils/logger/base_logger.py
 '''
@@ -17,6 +17,7 @@ class LoggerLevel(Enum):
     WARNING = auto()
     ERROR = auto()
     CRITICAL = auto()
+    TRACE = auto()
 
 def get_log_root_path() -> str:
     return os.environ['AIHPC_LOG_DIR']
@@ -56,6 +57,13 @@ class BaseLogger(metaclass=abc.ABCMeta):
     
     @abc.abstractmethod
     def log(self, msg, *args, **kwargs):
+        pass
+    
+    @abc.abstractmethod
+    def trace(self,
+             msg: object,
+             *args: object,
+             **kwargs):
         pass
 
     @abc.abstractmethod

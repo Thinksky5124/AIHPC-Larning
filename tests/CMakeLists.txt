@@ -41,7 +41,7 @@ foreach (test_source ${TEST_CPPS})
     target_link_libraries(${mySTL_test_name} _C_openmp)
   endif()
   
-  target_link_libraries(${mySTL_test_name} _C_Lib gmock gtest gtest_main)
+  target_link_libraries(${mySTL_test_name} _C_Lib gmock gtest gtest_main spdlog::spdlog_header_only)
   
   gtest_discover_tests(${mySTL_test_name}
           EXTRA_ARGS

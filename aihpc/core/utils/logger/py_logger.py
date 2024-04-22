@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-03-26 20:47:55
 LastEditors  : Thinksky5124
-LastEditTime : 2024-03-27 20:05:27
+LastEditTime : 2024-04-22 21:25:34
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/utils/logger/py_logger.py
 '''
@@ -22,6 +22,7 @@ def time_zone(sec, fmt):
 class PythonLoggingLogger(BaseLogger):
     logger: logging.Logger
     level_map = {
+        LoggerLevel.TRACE: logging.DEBUG,
         LoggerLevel.DEBUG: logging.DEBUG,
         LoggerLevel.INFO: logging.INFO,
         LoggerLevel.WARNING: logging.WARNING,
@@ -38,11 +39,11 @@ class PythonLoggingLogger(BaseLogger):
 
         if level == "DEBUG":
             plain_formatter = logging.Formatter(
-                "[%(asctime)s] %(name)s %(levelname)s: %(message)s",
+                "[%(asctime)s] <thread %(thread)d> [%(levelname)s] [%(filename)s:%(lineno)d] %(name)s: %(message)s",
                 datefmt="%m/%d %H:%M:%S")
         else:
             plain_formatter = logging.Formatter(
-                "[%(asctime)s] %(message)s",
+                "[%(asctime)s] <thread %(thread)d> [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s",
                 datefmt="%m/%d %H:%M:%S")
 
         # stdout logging: master only
@@ -58,9 +59,9 @@ class PythonLoggingLogger(BaseLogger):
                 filename = self.path
             else:
                 # aviod cover
-                filename = os.path.join(self.path, name + "_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S") +".log")
+                filename = os.path.join(self.path, name + "_PyLogger_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S") +".log")
                 if(os.path.exists(filename)):
-                    filename = os.path.join(self.path, name + "_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S") +".log")
+                    filename = os.path.join(self.path, name + "_PyLogger_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S") +".log")
 
             # PathManager.mkdirs(os.path.dirname(filename))
             os.makedirs(os.path.dirname(filename), exist_ok=True)
@@ -98,6 +99,16 @@ class PythonLoggingLogger(BaseLogger):
 
         log_func = functools.partial(self.logger.log, level=level)
         log_func(msg, *args, extra=extra, exc_info=exc_info, stack_info=stack_info, stacklevel=stacklevel)
+    
+    def trace(self,
+              msg: object,
+              *args: object,
+              exc_info = None,
+              stack_info: bool = False,
+              stacklevel: int = 1,
+              extra = None):
+        log_func = functools.partial(self.logger.log, level=logging.DEBUG)
+        log_func(*args, msg=msg, extra=extra, exc_info=exc_info, stack_info=stack_info, stacklevel=stacklevel)
     
     def info(self,
              msg: object,

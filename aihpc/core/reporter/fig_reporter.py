@@ -2,7 +2,7 @@
 Author       : Thinksky5124
 Date         : 2024-04-06 16:23:51
 LastEditors  : Thinksky5124
-LastEditTime : 2024-04-06 21:25:26
+LastEditTime : 2024-04-22 16:42:46
 Description  : file content
 FilePath     : /AIHPC-Larning/aihpc/core/reporter/fig_reporter.py
 '''
@@ -12,7 +12,7 @@ import pandas as pd
 from typing import List, Tuple, Any
 
 from .base_reporter import BaseReporter
-from ..utils import ObjectRegister
+from ..utils import ObjectRegister, get_logger
 
 @ObjectRegister.register('reporter')
 class FigureReporter(BaseReporter):
@@ -21,6 +21,7 @@ class FigureReporter(BaseReporter):
                  plot_name: str,
                  x_names: List[str],
                  line_names: List[str],
+                 logger_name: str = 'AIHPC',
                  xlabel: str = '',
                  ylabel: str = '',
                  x_log: bool = False,
@@ -31,6 +32,7 @@ class FigureReporter(BaseReporter):
         super().__init__(save_path)
         self.plot_name = plot_name
         self.line_names = line_names
+        self.logger_name = logger_name
         self.xlabel = xlabel
         self.ylabel = ylabel
         self.x_names = x_names
@@ -96,8 +98,8 @@ class FigureReporter(BaseReporter):
                 plt.savefig(os.path.join(save_path, f"{self.plot_name}.png"))
         self.df = self.df[[self.x_names[0]] + self.line_names]
         if self.print_data:
-            print(self.plot_name + ':')
-            print(self.df)
+            get_logger(self.logger_name).info(f'{self.plot_name}:')
+            get_logger(self.logger_name).info("\n" + self.df.to_string())
         if save_path:
             self.df.to_csv(os.path.join(save_path, f"{self.plot_name}.csv"), float_format='%.1f', index=False)
     
