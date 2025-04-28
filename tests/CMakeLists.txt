@@ -34,14 +34,31 @@ foreach (test_source ${TEST_CPPS})
   add_executable(${mySTL_test_name} ${test_source})
   
   if(BUILD_CUDA_KERNEL)
-    target_link_libraries(${mySTL_test_name} _C_cuda)
+    target_link_libraries(${mySTL_test_name}
+                          _C_cuda
+                          Python::Python
+                          ${PYTHON_NVIDIA_LIBRARIES}
+                          ${TORCH_LIBRARIES}
+                          ${TORCH_PYTHON_LIBRARY}
+                          ${TORCH_CUDA_LIBRARIES}
+                          ${CUDAToolkit_LIBRARIES})
   endif()
   
   if(BUILD_OPENMP_KERNEL)
-    target_link_libraries(${mySTL_test_name} _C_openmp)
+    target_link_libraries(${mySTL_test_name}
+                          _C_openmp
+                          Python::Python
+                          ${TORCH_PYTHON_LIBRARY}
+                          ${TORCH_LIBRARIES})
   endif()
   
-  target_link_libraries(${mySTL_test_name} _C_Lib gmock gtest gtest_main spdlog::spdlog_header_only)
+  target_link_libraries(${mySTL_test_name}
+                        _C_Lib
+                        gmock
+                        gtest
+                        gtest_main
+                        spdlog::spdlog_header_only
+                        ${Python_LIBRARIES})
   
   gtest_discover_tests(${mySTL_test_name}
           EXTRA_ARGS
